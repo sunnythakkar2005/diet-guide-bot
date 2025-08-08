@@ -17,7 +17,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 158 64% 45%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -53,6 +53,13 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Brand extras */
+    --brand: 158 64% 45%;
+    --brand-glow: 158 64% 65%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand) / 0.95), hsl(var(--brand-glow) / 0.95));
+    --shadow-elevated: 0 10px 30px -12px hsl(var(--brand) / 0.35);
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
@@ -101,5 +108,23 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .btn-hero {
+    @apply text-primary-foreground shadow-sm;
+    background-image: var(--gradient-primary);
+    box-shadow: var(--shadow-elevated);
+    transition: var(--transition-smooth);
+  }
+  .btn-hero:hover { filter: brightness(1.03); }
+  .card-elevated {
+    @apply bg-card border rounded-lg;
+    box-shadow: var(--shadow-elevated);
+  }
+  .gradient-hero {
+    background: radial-gradient(1200px 500px at 50% -10%, hsl(var(--brand) / 0.25), transparent 60%),
+                linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
   }
 }
