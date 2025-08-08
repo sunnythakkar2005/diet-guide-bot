@@ -41,7 +41,7 @@ export function DietPlanGenerator({ file, preferences }: DietPlanGeneratorProps)
       // Check if Ollama is available
       const available = await checkOllamaStatus();
       if (!available) {
-        throw new Error("Ollama server is not available. Please make sure it's running on http://localhost:11434");
+        throw new Error(`Ollama server is not available. Please make sure it's running on ${import.meta.env.VITE_OLLAMA_BASE_URL || 'http://localhost:11434'}`);
       }
 
       // Extract text from the uploaded file
@@ -84,7 +84,7 @@ export function DietPlanGenerator({ file, preferences }: DietPlanGeneratorProps)
             <Alert>
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
-                Ollama server is not available. Please make sure Ollama is running on http://localhost:11434
+                Ollama server is not available. Please make sure Ollama is running on {import.meta.env.VITE_OLLAMA_BASE_URL || 'http://localhost:11434'}
                 <br />
                 <a 
                   href="https://ollama.ai" 
