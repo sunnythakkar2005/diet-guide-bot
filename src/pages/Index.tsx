@@ -2,10 +2,10 @@ import { useState } from "react";
 import Hero from "@/components/Hero";
 import UploadDropzone from "@/components/UploadDropzone";
 import PreferencesForm, { DietaryPreferences } from "@/components/PreferencesForm";
-import ResultsPanel from "@/components/ResultsPanel";
-import { Button } from "@/components/ui/button";
+import { DietPlanGenerator } from "@/components/DietPlanGenerator";
+import { AuthButton } from "@/components/AuthButton";
+import { validateBloodReportFile } from "@/lib/fileProcessor";
 import { toast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
 
 const defaultPrefs: DietaryPreferences = {
   vegetarian: false,
@@ -21,11 +21,20 @@ const Index = () => {
   const [file, setFile] = useState<File | null>(null);
   const [prefs, setPrefs] = useState<DietaryPreferences>(defaultPrefs);
 
-  const handleGenerate = () => {
+  const handleFileSelected = (selectedFile: File) => {
+    const validation = validateBloodReportFile(selectedFile);
+    if (!validation.valid) {
+      toast({
+        title: "Invalid file",
+        description: validation.error,
+        variant: "destructive",
+      });
+      return;
+    }
+    setFile(selectedFile);
     toast({
-      title: "Connect Supabase to enable AI recommendations",
-      description:
-        "Click the green Supabase button in the top-right to connect. Then I'll add auth, storage, and LLM provider support.",
+      title: "File uploaded",
+      description: `${selectedFile.name} has been uploaded successfully.`,
     });
   };
 
@@ -38,24 +47,19 @@ const Index = () => {
 
       <section className="container mx-auto px-4 pt-4">
         <div className="flex justify-end">
-          <Button asChild variant="link">
-            <Link to="/auth">Log in / Sign up</Link>
-          </Button>
+          <AuthButton />
         </div>
       </section>
 
       <section id="uploader" className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-2 space-y-6">
-            <UploadDropzone onFileSelected={setFile} />
+            <UploadDropzone onFileSelected={handleFileSelected} />
             <PreferencesForm value={prefs} onChange={setPrefs} />
-            <div className="flex justify-end">
-              <Button variant="hero" size="lg" onClick={handleGenerate}>
-                Generate my plan
-              </Button>
-            </div>
           </div>
-          <ResultsPanel hasInput={!!file} />
+          <div>
+            <DietPlanGenerator file={file} preferences={prefs} />
+          </div>
         </div>
       </section>
 
