@@ -5,6 +5,7 @@ import PreferencesForm, { DietaryPreferences } from "@/components/PreferencesFor
 import ResultsPanel from "@/components/ResultsPanel";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 const defaultPrefs: DietaryPreferences = {
   vegetarian: false,
@@ -34,6 +35,14 @@ const Index = () => {
         const el = document.getElementById("uploader");
         el?.scrollIntoView({ behavior: "smooth", block: "start" });
       }} />
+
+      <section className="container mx-auto px-4 pt-4">
+        <div className="flex justify-end">
+          <Button asChild variant="link">
+            <Link to="/auth">Log in / Sign up</Link>
+          </Button>
+        </div>
+      </section>
 
       <section id="uploader" className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid lg:grid-cols-3 gap-8 items-start">
