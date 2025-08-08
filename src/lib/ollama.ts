@@ -28,7 +28,7 @@ class OllamaClient {
   private defaultModel: string;
 
   constructor() {
-    this.baseUrl = import.meta.env.VITE_OLLAMA_BASE_URL || 'http://localhost:11434';
+    this.baseUrl = 'http://ollama:11434';
     this.defaultModel = import.meta.env.VITE_OLLAMA_MODEL || 'llama3.2:3b';
   }
 
